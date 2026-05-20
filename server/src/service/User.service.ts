@@ -6,10 +6,10 @@ import type {
 } from "../types/database.types";
 
 export default class UserService {
-  // // Найти пользователя по email
-  // static async getUserByEmail(email: string) {
-  //   return (await User.findOne({ where: { email } }))?.get();
-  // }
+  // Найти пользователя по email
+  static async getUserByEmail(email: string) {
+    return (await User.findOne({ where: { email } }))?.get();
+  }
 
   // Создаём пользователя в БД
   static async createNewUser(userData: CreateUserDTO) {
@@ -17,7 +17,7 @@ export default class UserService {
 
     const birthDate = new Date(Number(year), Number(month) - 1, Number(day));
 
-    return (await User.create({...userData, birthDate}))?.get();
+    return (await User.create({ ...userData, birthDate }))?.get();
   }
 
   static isValidBirthDateFormat(date: string): boolean {
@@ -58,8 +58,6 @@ export default class UserService {
       birthDate,
       email,
       password,
-      role,
-      status,
     } = data;
 
     if (!name || typeof name !== "string" || name.trim().length === 0) {

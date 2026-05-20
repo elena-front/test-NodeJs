@@ -90,13 +90,27 @@ export async function signIn(req: Request, res: Response) {
 
 export async function signUp(req: Request, res: Response) {
   // Достаём данные для регистрации из тела запроса
-  const { name, email, password } = req.body;
+  const {
+    name,
+    surname,
+    middlename,
+    birthDate,
+    email,
+    password,
+    role,
+    status,
+  } = req.body;
 
   // Валидация данных
   const { isValid, error } = UserService.validateSignUpData({
     name,
+    surname,
+    middlename,
+    birthDate,
     email,
     password,
+    role,
+    status,
   });
 
   if (!isValid) {
@@ -129,8 +143,13 @@ export async function signUp(req: Request, res: Response) {
     // Создаем пользователя в БД
     const newUser = await UserService.createNewUser({
       name,
+      surname,
+      middlename,
+      birthDate,
       email,
       password: hashedPassword,
+      role,
+      status,
     });
 
     if (!newUser) {

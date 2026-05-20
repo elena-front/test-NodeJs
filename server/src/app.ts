@@ -9,7 +9,7 @@ const PORT = Number(process.env.PORT) || 3000;
 const app: Application = express();
 serverConfig(app);
 
-app.use("/api", apiRouter);
+app.use(apiRouter);
 
 app.listen(PORT, () => {
   console.log(`server runs on port: ${PORT}`);

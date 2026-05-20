@@ -11,5 +11,5 @@ import { verifyRefreshToken } from "../middleware/verifyRefreshToken";
 export default Router()
   .post("/signup", signUp)
   .post("/signin", signIn)
-  .get("/refresh", verifyRefreshToken, refresh)
-  .get("/signout", signOut);
+  .post("/refresh", verifyRefreshToken, refresh)
+  .post("/signout", signOut);
