@@ -85,7 +85,7 @@ export default class UserService {
     if (!UserService.isValidBirthDateFormat(birthDate)) {
       return {
         isValid: false,
-        error: "Birthdate must be in format DD.MM.YYYY and be a valid date",
+        error: "Неверный формат даты рождения",
       };
     }
 
@@ -157,5 +157,48 @@ export default class UserService {
       };
     }
     return (await User.findOne({ where: { id: requestedId } }))?.get();
+  }
+
+  // Получить список всех пользователей
+  static async getAllUsers(currentUser: { role: string }) {
+    if (currentUser.role !== "admin") {
+      return {
+        isValid: false,
+        error: "У Вас недостаточно прав",
+      };
+    }
+    const users = await User.findAll();
+    return users.map((u) => u.get());
+  }
+
+  // Блокировка пользователя
+  static async blockUser(
+    userToBlockId: number,
+    currentUser: { id: number; role: string },
+  ) {
+    if (currentUser.role !== "admin" && currentUser.id !== userToBlockId) {
+      return {
+        isValid: false,
+        error: "У Вас недостаточно прав",
+      };
+    }
+
+    const user = await User.findByPk(userToBlockId);
+
+    if (!user) {
+      return {
+        isValid: false,
+        error: "Пользователь не найден",
+      };
+    }
+
+    user.status = "inactive";
+
+    await user.save();
+
+    return {
+      isValid: true,
+      data: user.get(),
+    };
   }
 }
