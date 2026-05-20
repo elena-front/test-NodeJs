@@ -51,14 +51,7 @@ export default class UserService {
   }
 
   static validateSignUpData(data: SingUpData) {
-    const {
-      name,
-      surname,
-      middlename,
-      birthDate,
-      email,
-      password,
-    } = data;
+    const { name, surname, middlename, birthDate, email, password } = data;
 
     if (!name || typeof name !== "string" || name.trim().length === 0) {
       return {
@@ -150,5 +143,19 @@ export default class UserService {
     }
 
     return { isValid: true, error: null };
+  }
+
+  // Найти пользователя по id
+  static async getUserById(
+    requestedId: number,
+    currentUser: { id: number; role: string },
+  ) {
+    if (currentUser.role !== "admin" && currentUser.id !== requestedId) {
+      return {
+        isValid: false,
+        error: "У Вас недостаточно прав",
+      };
+    }
+    return (await User.findOne({ where: { id: requestedId } }))?.get();
   }
 }

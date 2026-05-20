@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import apiRouter from "./routes/api.router";
+import apiRouter from "./routes/api.routes";
 import serverConfig from "./config/serverConfig";
 import type { Application } from "express";
 

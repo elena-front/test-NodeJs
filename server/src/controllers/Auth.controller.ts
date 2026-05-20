@@ -247,3 +247,5 @@ export async function signOut(req: Request, res: Response) {
       .json(formatResponse(500, "Внутренняя ошибка сервера", null, error));
   }
 }
+
+
